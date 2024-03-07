@@ -14,11 +14,12 @@ FROM prepare AS run
 #ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache
 
 # Copy the necessarry files - the script, resources and orgonit
-COPY script.py /
+#COPY script.py /
 
 # Run the sript to generate the text outputs
 #ENTRYPOINT ["python", "./script.py"]
-ENTRYPOINT ["sh", "-c", "echo \"Hello from Docker\""]
+ENTRYPOINT ["entrypoint.sh"]
+#ENTRYPOINT ["sh", "-c", "echo \"Hello from Docker\""]
 
 
 # Copy the generated files out of the container
