@@ -1,0 +1,8 @@
+{
+    "my_json_data":
+        {
+            "A": "Foo",
+            "B": "bar",
+            "my_list": ["apple", "banana", "lemon"]
+        }
+}

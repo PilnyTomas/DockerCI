@@ -1,0 +1,45 @@
+name: Run Generator in Docker
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-buildx-action@v3
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            NO_CACHE_FILTER=run
+
+      - name: Run Generator in Docker
+        run: |
+          docker run
+
+      - name: Commit files
+        id: commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "github-actions"
+          git add text.txt file.pdf
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "push=false" >> $GITHUB_ENV
+          else
+            git commit -m "Add generated files" -a
+            echo "push=true" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
