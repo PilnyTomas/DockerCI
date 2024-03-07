@@ -17,7 +17,9 @@ FROM prepare AS run
 COPY script.py /
 
 # Run the sript to generate the text outputs
-ENTRYPOINT ["python", "./script.py"]
+#ENTRYPOINT ["python", "./script.py"]
+ENTRYPOINT ["sh", "-c", "echo \"Hello from Docker\""]
+
 
 # Copy the generated files out of the container
 # this is done in build
