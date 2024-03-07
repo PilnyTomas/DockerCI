@@ -1,11 +1,15 @@
-on: [push]
+name: Run Generator in Docker
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       # Output build artifacts to /github/workspace on the container.
       - name: Containerized Build
